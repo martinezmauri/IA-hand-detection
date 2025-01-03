@@ -1,0 +1,31 @@
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 2rem;
+}
+.title img {
+  width: 15rem;
+  user-select: none;
+}
+.buttonPlay {
+  background-color: rgb(29, 29, 29);
+  padding: 15px;
+  width: 13rem;
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+.buttonPlay:hover {
+  font-size: 1.6em;
+  width: 15rem;
+}
+.inputUser {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
