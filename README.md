@@ -1,50 +1,42 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Piedra, Papel o Tijera con IA 👋🖐✌️
 
-Currently, two official plugins are available:
+Este proyecto es una implementación de un juego de **Piedra, Papel o Tijera** utilizando **TensorFlow.js** para la detección de movimientos de las manos. El objetivo es crear un sistema que permita jugar contra una inteligencia artificial, donde la IA detecta y responde al gesto mostrado por el jugador.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> 🚧 **Estado**: El proyecto está en desarrollo. Algunos aspectos del sistema pueden no estar completamente implementados.  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠️ Tecnologías utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: Para la interfaz de usuario.
+- **TypeScript**: Asegura un código más robusto y mantenible.
+- **TensorFlow.js**: Para la detección de movimientos de las manos y el manejo del modelo de aprendizaje automático.
+- **CSS/Styled Components**: Diseño y estilos personalizados (puede ajustarse a las necesidades del proyecto).
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📚 Funcionalidades previstas
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Detectar movimientos de las manos en tiempo real mediante la cámara.
+2. Interpretar los gestos como **piedra**, **papel** o **tijera**.
+3. Comparar el resultado del gesto del jugador con la elección generada por la IA.
+4. Mostrar resultados en tiempo real (ganador/perdedor/empate).
+5. **Opcional en el futuro**: Agregar animaciones y estadísticas del rendimiento del jugador.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## 🚀 Cómo ejecutar el proyecto
+
+### Prerrequisitos
+
+- Tener instalado **Node.js** y **npm** o **yarn**.
+- Una cámara funcional en el dispositivo.
+
+### Pasos
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/piedra-papel-tijera-ia.git
+   cd piedra-papel-tijera-ia
