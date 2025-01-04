@@ -43,8 +43,6 @@ function checkScissors(landmarks: Landmark[]): boolean {
   const isRingClosed = distance2D(palmBase, ringTip) < thresholdClosed;
   const isPinkyClosed = distance2D(palmBase, pinkyTip) < thresholdClosed;
 
-  console.log(isThumbClosed);
-
   return (
     isIndexRaised &&
     isMiddleRaised &&

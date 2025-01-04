@@ -3,12 +3,24 @@ import { checkPaper, checkScissors, checkFist } from "../../helpers/checkHands";
 import "@tensorflow/tfjs"; // Importar la librería TensorFlow.js
 import * as handpose from "@tensorflow-models/handpose";
 import styles from "./Game.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import collectRandomObject from "../../helpers/randomObject";
+import checkPlay from "../../helpers/checkPlays";
 
 const Game = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [model, setModel] = useState<handpose.HandPose | null>(null);
   const [result, setResult] = useState<string>("");
+  const [ganador, setGanador] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  let { nameUser } = location.state;
+  if (nameUser === "") {
+    nameUser = "Invitado";
+  }
+  const handIA = collectRandomObject();
 
   useEffect(() => {
     const loadModel = async () => {
@@ -35,6 +47,11 @@ const Game = () => {
   useEffect(() => {
     setupCamera();
   }, []);
+  const predictionCounts: Record<"Piedra" | "Papel" | "Tijera", number> = {
+    Piedra: 0,
+    Papel: 0,
+    Tijera: 0,
+  };
 
   const detectHands = async () => {
     if (!model || !videoRef.current || !canvasRef.current) return; // Verifica si el modelo está cargado
@@ -49,6 +66,8 @@ const Game = () => {
       console.error("No se pudo obtener el contexto del canvas.");
       return;
     }
+
+    const predictionLimit = 10;
 
     // Estimar las manos en el video
     const predictions = await model.estimateHands(video);
@@ -72,17 +91,36 @@ const Game = () => {
           const isFistClosed = checkFist(landmarks);
           const isScissors = checkScissors(landmarks);
           const isPaper = checkPaper(landmarks);
-          if (isPaper) {
-            setResult("Papel");
-            console.log(result);
-          }
-          if (isScissors) {
-            setResult("Tijera");
-            console.log("¡Tijera detectada!");
-          }
-          if (isFistClosed) {
-            setResult("Piedra");
-            console.log("¡Puño cerrado detectado!");
+          if (isPaper) predictionCounts.Papel++;
+          if (isScissors) predictionCounts.Tijera++;
+          if (isFistClosed) predictionCounts.Piedra++;
+
+          const totalPredictions =
+            predictionCounts.Piedra +
+            predictionCounts.Papel +
+            predictionCounts.Tijera;
+
+          if (totalPredictions >= predictionLimit) {
+            const mostFrequentPrediction = (
+              Object.keys(predictionCounts) as Array<
+                keyof typeof predictionCounts
+              >
+            ).reduce((a, b) =>
+              predictionCounts[a] > predictionCounts[b] ? a : b
+            );
+            setResult(mostFrequentPrediction);
+
+            // Reiniciar contadores para el siguiente análisis
+            predictionCounts.Piedra = 0;
+            predictionCounts.Papel = 0;
+            predictionCounts.Tijera = 0;
+
+            //llamamos al ganador
+            if (!handIA?.name) {
+              return;
+            }
+            const ganador = checkPlay(handIA?.name, mostFrequentPrediction);
+            setGanador(ganador);
           }
         }
       });
@@ -98,36 +136,46 @@ const Game = () => {
     }
   }, [model]); // Ejecutar solo cuando el modelo esté cargado
 
+  const handleRedirect = () => {
+    navigate("/");
+  };
+
   return (
-    <div className={styles.hero}>
-      <div className={styles.containerIA}>
-        <h1>IA</h1>
-        <video
-          ref={videoRef}
-          id="video"
-          autoPlay
-          playsInline
-          style={{ position: "absolute", width: "0", height: "0" }}
-        ></video>
-        <div className={styles.containerCameraIA}>
-          <img src="src/assets/Papel.png" alt="" />
+    <div>
+      <button className={styles.buttonBack} onClick={handleRedirect}>
+        <img src="src/assets/back.png" alt="" />
+      </button>
+      <section className={styles.hero}>
+        <div className={styles.containerIA}>
+          <h1>IA</h1>
+          <video
+            ref={videoRef}
+            id="video"
+            autoPlay
+            playsInline
+            style={{ position: "absolute", width: "0", height: "0" }}
+          ></video>
+          <div className={styles.containerCameraIA}>
+            <img src={handIA?.img} alt="" />
+            <h1> {handIA?.name}</h1>
+          </div>
         </div>
-        <h1>Resultado: Papel</h1>
-      </div>
-      <img src="src/assets/vs.png" alt="" className={styles.imgVS} />
-      <div className={styles.containerUser}>
-        <div>
-          <h1>Usuario 1</h1>
+        <img src="src/assets/vs.png" alt="" className={styles.imgVS} />
+        <div className={styles.containerUser}>
+          <div>
+            <h1>{nameUser}</h1>
+          </div>
+          <div className={styles.containerCamera}>
+            <canvas
+              ref={canvasRef}
+              id="output"
+              className={styles.cameraUser}
+            ></canvas>
+          </div>
+          <h1>Has elegido: {result}</h1>
         </div>
-        <div className={styles.containerCamera}>
-          <canvas
-            ref={canvasRef}
-            id="output"
-            className={styles.cameraUser}
-          ></canvas>
-        </div>
-        <h1>Capturando: {result}</h1>
-      </div>
+      </section>
+      <h1>Ganador: {ganador}</h1>
     </div>
   );
 };

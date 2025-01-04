@@ -40,3 +40,17 @@
   width: 12em;
   height: 12em;
 }
+.buttonBack {
+  background-color: rgb(255, 255, 255);
+  border: none;
+  padding: 2em;
+  cursor: pointer;
+}
+.buttonBack img {
+  width: 5em;
+  transition: filter 0.2s ease;
+}
+.buttonBack img:hover {
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.5));
+  width: 5.1em;
+}
