@@ -7,7 +7,7 @@ function checkPlay(ia: string, user: string) {
     (ia === "Piedra" && user === "Tijera") ||
     (ia === "Tijera" && user === "Papel")
   ) {
-    return "IA gana"; // IA gana en este caso
+    return "IA gana";
   }
   return "Usuario gana";
 }

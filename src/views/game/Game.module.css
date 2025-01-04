@@ -1,7 +1,23 @@
 .hero {
   display: flex;
   justify-content: space-around;
-  padding-top: 5rem;
+  padding: 5rem 0 4.1rem 0;
+}
+.header {
+  background-color: rgb(39, 39, 39);
+  height: 5rem;
+}
+.buttonBack {
+  background-color: rgb(39, 39, 39);
+  border: none;
+  cursor: pointer;
+}
+.buttonBack img {
+  width: 4rem;
+  transition: filter 0.2s ease;
+}
+.buttonBack img:hover {
+  filter: drop-shadow(4px 4px 8px rgba(255, 255, 255, 0.5));
 }
 .containerIA {
   border: 1px solid black;
@@ -9,6 +25,7 @@
 }
 .containerIA h1 {
   text-align: center;
+  border-bottom: 1px solid black;
 }
 .containerCameraIA {
   display: flex;
@@ -16,8 +33,6 @@
   align-items: center;
   width: 500px;
   height: 23rem;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
 }
 .containerCameraIA img {
   width: 10em;
@@ -30,27 +45,26 @@
 .containerCamera {
   min-width: 30rem;
   min-height: 20rem;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
 }
 .cameraUser {
   width: 100%;
 }
 .imgVS {
   position: absolute;
-  bottom: 20rem;
+  bottom: 15rem;
   width: 12em;
   height: 12em;
 }
-.buttonBack {
-  background-color: rgb(255, 255, 255);
-  border: none;
-  padding: 2em;
-  cursor: pointer;
+
+.containerUser h1 {
+  text-align: center;
 }
-.buttonBack img {
-  width: 5em;
-  transition: filter 0.2s ease;
-}
-.buttonBack img:hover {
-  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.5));
-  width: 5.1em;
+.winContainer {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(39, 39, 39);
+  padding: 20px;
+  color: aliceblue;
 }
