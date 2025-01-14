@@ -3,6 +3,7 @@
   justify-content: space-around;
   padding: 5rem 0 4.1rem 0;
 }
+
 .header {
   background-color: rgb(39, 39, 39);
   height: 5rem;
@@ -21,17 +22,20 @@
 }
 .containerIA {
   border: 1px solid black;
-  width: 500px;
+  border-radius: 10px;
+  width: 400px;
 }
 .containerIA h1 {
   text-align: center;
+  background-color: rgb(39, 39, 39);
+  border-radius: 9px;
   border-bottom: 1px solid black;
 }
 .containerCameraIA {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 400px;
   height: 23rem;
 }
 .containerCameraIA img {
@@ -39,14 +43,12 @@
   height: 10em;
 }
 .containerUser {
-  width: 500px;
+  width: 400px;
+  border-radius: 10px;
   border: 1px solid black;
 }
 .containerCamera {
-  min-width: 30rem;
   min-height: 20rem;
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
 }
 .cameraUser {
   width: 100%;
@@ -55,11 +57,17 @@
   position: absolute;
   bottom: 15rem;
   width: 12em;
-  height: 12em;
+  height: 10em;
 }
-
+.electionUser {
+  border-top: 1px solid black;
+  border-radius: 9px;
+}
 .containerUser h1 {
+  background-color: rgb(39, 39, 39);
+  border-bottom: 1px solid black;
   text-align: center;
+  border-radius: 9px;
 }
 .winContainer {
   display: flex;

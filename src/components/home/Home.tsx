@@ -17,7 +17,9 @@ export const Home: React.FC = () => {
   return (
     <div>
       <section className={styles.title}>
-        <img src="/src/assets/PiedraPapeloTijera.png" alt="" />
+        <h1>
+          Piedra <br /> Papel <br /> o <br /> Tijera
+        </h1>
         <input
           type="text"
           placeholder="Nombre..."

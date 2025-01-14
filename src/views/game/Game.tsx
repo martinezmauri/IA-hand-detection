@@ -179,7 +179,7 @@ const Game = () => {
               className={styles.cameraUser}
             ></canvas>
           </div>
-          <h1>Has elegido: {result}</h1>
+          <h1 className={styles.electionUser}>Has elegido: {result}</h1>
         </div>
       </section>
       <section className={styles.winContainer}>
