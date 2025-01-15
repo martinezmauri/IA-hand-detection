@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { checkPaper, checkScissors, checkFist } from "../../helpers/checkHands";
-import "@tensorflow/tfjs"; // Importar la librería TensorFlow.js
 import * as handpose from "@tensorflow-models/handpose";
 import styles from "./Game.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,12 +15,14 @@ const Game = () => {
   const [ganador, setGanador] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const [handIA, setHandIa] = useState(collectRandomObject());
+  const [turn, setTurn] = useState(1);
+  const [isDetecting, setIsDetecting] = useState(true);
 
   let { nameUser } = location.state;
   if (nameUser === "") {
     nameUser = "Invitado";
   }
-  const handIA = collectRandomObject();
 
   useEffect(() => {
     const loadModel = async () => {
@@ -55,8 +56,23 @@ const Game = () => {
     Tijera: 0,
   };
 
+  const nextTurn = () => {
+    setTurn((prevTurn) => prevTurn + 1);
+    setHandIa(collectRandomObject());
+    setGanador(""); // Reinicia el ganador para el nuevo turno
+    setResult(""); // Reinicia el resultado del usuario
+    setIsDetecting(true);
+  };
+
   const detectHands = async () => {
-    if (!model || !videoRef.current || !canvasRef.current) return;
+    if (
+      !model ||
+      !videoRef.current ||
+      !canvasRef.current ||
+      !isDetecting ||
+      ganador
+    )
+      return;
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -105,6 +121,10 @@ const Game = () => {
             ).reduce((a, b) =>
               predictionCounts[a] > predictionCounts[b] ? a : b
             );
+            if (!result) {
+              setResult(mostFrequentPrediction);
+              console.log(mostFrequentPrediction);
+            }
             setResult(mostFrequentPrediction);
 
             predictionCounts.Piedra = 0;
@@ -116,6 +136,9 @@ const Game = () => {
             }
             const ganador = checkPlay(handIA?.name, mostFrequentPrediction);
             setGanador(ganador);
+            console.log(ganador);
+
+            setIsDetecting(false);
           }
         }
       });
@@ -125,10 +148,10 @@ const Game = () => {
   };
 
   useEffect(() => {
-    if (model) {
+    if (model && isDetecting) {
       detectHands();
     }
-  }, [model]);
+  }, [model, isDetecting]);
 
   const handleRedirect = () => {
     navigate("/");
@@ -168,8 +191,24 @@ const Game = () => {
             <img src={handIA?.img} alt="" />
             <h2> {handIA?.name}</h2>
           </motion.div>
+          {ganador && (
+            <button className={styles.nextTurnButton} onClick={nextTurn}>
+              Cambiar
+            </button>
+          )}
         </div>
-        <img src="src/assets/vs.png" alt="" className={styles.imgVS} />
+
+        <motion.img
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.4,
+            scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+          }}
+          src="src/assets/vs-icono.png"
+          alt=""
+          className={styles.imgVS}
+        />
         <div className={styles.containerUser}>
           <h1>{nameUser}</h1>
           <div className={styles.containerCamera}>
@@ -179,7 +218,9 @@ const Game = () => {
               className={styles.cameraUser}
             ></canvas>
           </div>
-          <h1 className={styles.electionUser}>Has elegido: {result}</h1>
+          <div className={styles.electionUser}>
+            <h1>Has elegido: {result}</h1>
+          </div>
         </div>
       </section>
       <section className={styles.winContainer}>

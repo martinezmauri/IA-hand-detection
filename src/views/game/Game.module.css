@@ -55,13 +55,16 @@
 }
 .imgVS {
   position: absolute;
-  bottom: 15rem;
+  bottom: 20rem;
   width: 12em;
   height: 10em;
 }
 .electionUser {
   border-top: 1px solid black;
   border-radius: 9px;
+}
+.electionUser h1 {
+  height: 4.7vw;
 }
 .containerUser h1 {
   background-color: rgb(39, 39, 39);
